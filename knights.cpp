@@ -3,53 +3,59 @@
 #include <string>
 #include <unistd.h>
 
-int load_board(std::string *board) {
-  for(int i = 0; i < 5; i++){
-    board[i] = "00000";
-  }
-  return 5;
-}
-
-bool filled(std::string board[], int lines){
-  for (int i = 0; i < lines; i++){
-    for(int j = 0; j < lines; j++){
-        if(board[i][j] == '0') return false;
+bool filled(int board[], int length){
+  for (int i = 0; i < length; i++){
+    for(int j = 0; j < length; j++){
+        if(board[(i * length) + j] == 0) return false;
     }
   }
   return true;
 }
 
-void print_board(std::string board[], int lines){
-  std::cout << "[0;0H\n";
-
-  for (int i = 0; i < lines; i++){
-    for(int j = 0; j < lines; j++){
-        std::cout << board[i][j] << " ";
+void fill_board(int *board){
+    for(int i = 0; i < 25; i++){
+        board[i] = 0;
     }
-    std::cout << "\n\n";
-  }
+}
+
+void print_board(int board[], int length){
+    std::cout << "[0;0H\n";
+
+    for(int i = 0; i < length; i++){
+        for(int j = 0; j < length; j++){
+            int s = (i * length) + j;
+            if(board[(i * length) + j] < 10){
+                std::cout << " " << board[s] << " ";
+            }
+            else{
+                std::cout << board[s] << " ";
+            }
+        }
+        std::cout << "\n\n";
+    }
   
 }
 
-void solve(std::string board[], int lines, int row, int col,bool &solved, int move){
-  if(solved || row < 0 || row >= lines || col < 0 || col >= lines){
-    return;
-  }
+void solve(int board[], int length, int row, int col, int move){
+    if(row < 0 || row >= length || col < 0 || col >= length){
+        return;
+    }
+    int curr = (row * length) + col;
+    if(board[curr] > 0) return;
 
-  if(board[row][col] == '1' || board[row][col] == '-' ) return;
+    board[curr] = move;
+    print_board(board, length);
 
-  board[row][col] = '1';
-  sleep(1);
-  print_board(board,lines);
+    solve(board, length, row + 1, col + 2, move + 1);
+    solve(board, length, row + 1, col - 2, move + 1);
+    solve(board, length, row - 1, col + 2, move + 1);
+    solve(board, length, row - 1, col - 2, move + 1);
+    solve(board, length, row + 2, col + 1, move + 1);
+    solve(board, length, row + 2, col - 1, move + 1);
+    solve(board, length, row - 2, col + 1, move + 1);
+    solve(board, length, row - 2, col - 1, move + 1);
 
-  solved = filled(board, lines);
-
-  if (!solved) solve(board,lines,row + 1,col + 2, solved, move + 1);
-  if (!solved) solve(board,lines,row + 1,col - 2, solved, move + 1);
-  if (!solved) solve(board,lines,row - 1,col + 2, solved, move + 1);
-  if (!solved) solve(board,lines,row - 1,col - 2, solved, move + 1);
-  if (!solved) solve(board,lines,row + 2,col + 1, solved, move + 1);
-  if (!solved) solve(board,lines,row + 2,col - 1, solved, move + 1);
-  if (!solved) solve(board,lines,row - 2,col + 1, solved, move + 1);
-  if (!solved) solve(board,lines,row - 2,col - 1, solved, move + 1);
+    if(filled(board, length)) return;
+    
+    board[curr] = 0;
 }

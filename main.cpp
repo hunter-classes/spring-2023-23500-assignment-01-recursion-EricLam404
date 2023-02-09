@@ -3,16 +3,13 @@
 #include "knights.h"
 
 int main()
-{
-  std::string board[5];
-  int lines;
-  bool solved = false;
+{   
+    int length = 5;
+    int board[length*length];
 
-  lines = load_board(board);
-  print_board(board,lines);
-  usleep(80000);
+    fill_board(board);
+    print_board(board, length);
+    solve(board, length, 0, 0, 1);
 
-  print_board(board, lines);
-  solve(board, lines, 0, 0, solved, 1);
-  return 0;
+    return 0;
 }
