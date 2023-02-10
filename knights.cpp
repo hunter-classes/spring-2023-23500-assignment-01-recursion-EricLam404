@@ -44,7 +44,7 @@ void solve(int board[], int length, int row, int col, int move){
     if(board[curr] > 0) return;
 
     board[curr] = move;
-    print_board(board, length);
+    //print_board(board, length);
 
     solve(board, length, row + 1, col + 2, move + 1);
     solve(board, length, row + 1, col - 2, move + 1);
@@ -56,6 +56,6 @@ void solve(int board[], int length, int row, int col, int move){
     solve(board, length, row - 2, col - 1, move + 1);
 
     if(filled(board, length)) return;
-    
+
     board[curr] = 0;
 }

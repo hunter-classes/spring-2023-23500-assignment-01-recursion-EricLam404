@@ -10,6 +10,7 @@ int main()
     fill_board(board);
     print_board(board, length);
     solve(board, length, 0, 0, 1);
+    print_board(board, length);
 
     return 0;
 }
