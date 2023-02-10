@@ -1,5 +1,5 @@
 #pragma once
 
-void fill_board(int *board);
-void print_board(int board[], int length);
-void solve(int board[], int length, int row, int col, int move);
+void fill_board(int board[][5]);
+void print_board(int board[][5], int length);
+void solve(int board[][5], int length, int row, int col, int move);

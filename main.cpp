@@ -5,7 +5,8 @@
 int main()
 {   
     int length = 5;
-    int board[length*length];
+
+    int board[length][5];
 
     fill_board(board);
     print_board(board, length);
